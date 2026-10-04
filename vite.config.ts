@@ -12,7 +12,9 @@ export default defineConfig({
   },
 
   plugins: [
-    tanstackStart(),
+    tanstackStart({
+      spa: { enabled: true },
+    }),
     nitro(),
     viteReact(),
     tailwindcss(),
