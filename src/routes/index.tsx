@@ -24,6 +24,7 @@ import {
   Clock3,
   Edit3,
   Eye,
+  EyeOff,
   FileCheck2,
   FilePlus2,
   FileText,
@@ -1314,6 +1315,14 @@ function AuthScreen({
   const [loading, setLoading] =
     useState(false);
 
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [password, setPassword] =
+    useState("");
+
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const [googleLoading, setGoogleLoading] =
     useState(false);
 
@@ -1333,6 +1342,28 @@ function AuthScreen({
         ""
       );
     });
+
+  // Sync any credentials autofilled by the browser on page load / refresh
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (passwordRef.current?.value && !password) {
+        setPassword(passwordRef.current.value);
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleTogglePassword(e: React.MouseEvent) {
+    e.preventDefault();
+    if (passwordRef.current) {
+      const currentVal = passwordRef.current.value;
+      if (currentVal !== password) {
+        setPassword(currentVal);
+      }
+    }
+    setShowPassword((prev) => !prev);
+  }
 
   const handleGoogleSuccess = async (authPayload: {
     credential?: string;
@@ -1879,14 +1910,34 @@ function AuthScreen({
                 </Field>
 
                 <Field label="Password">
-                  <input
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    className="field"
-                    placeholder="Enter your password"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      ref={passwordRef}
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onInput={(e) => setPassword(e.currentTarget.value)}
+                      autoComplete="current-password"
+                      className="field pr-11"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={handleTogglePassword}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      title={showPassword ? "Hide password" : "Show password"}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <Eye className="size-4 shrink-0 text-[#183d22]" />
+                      ) : (
+                        <EyeOff className="size-4 shrink-0 text-gray-400" />
+                      )}
+                    </button>
+                  </div>
                 </Field>
 
                 <div className="flex justify-end -mt-2">
@@ -2110,6 +2161,8 @@ function Registration({
   error: string;
   loading: boolean;
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <>
       <Button
@@ -2175,25 +2228,57 @@ function Registration({
 
         <div className="sm:col-span-2">
           <Field label="Password">
-            <input
-              name="password"
-              type="password"
-              required
-              className="field"
-              placeholder="At least 8 characters"
-            />
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                className="field pr-11"
+                placeholder="At least 8 characters"
+              />
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                title={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition focus:outline-none"
+              >
+                {showPassword ? (
+                  <Eye className="size-4 shrink-0 text-[#183d22]" />
+                ) : (
+                  <EyeOff className="size-4 shrink-0 text-gray-400" />
+                )}
+              </button>
+            </div>
           </Field>
         </div>
 
         <div className="sm:col-span-2">
           <Field label="Confirm Password">
-            <input
-              name="confirmPassword"
-              type="password"
-              required
-              className="field"
-              placeholder="Re-enter your password"
-            />
+            <div className="relative">
+              <input
+                name="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                required
+                className="field pr-11"
+                placeholder="Re-enter your password"
+              />
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                title={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition focus:outline-none"
+              >
+                {showPassword ? (
+                  <Eye className="size-4 shrink-0 text-[#183d22]" />
+                ) : (
+                  <EyeOff className="size-4 shrink-0 text-gray-400" />
+                )}
+              </button>
+            </div>
           </Field>
         </div>
 
