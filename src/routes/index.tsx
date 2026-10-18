@@ -2602,66 +2602,45 @@ function Registration({
           </Field>
         </div>
 
-        
-        <div className="sm:col-span-2">
-          <Field label="Password">
-            <div className="relative">
-              <input
-                name="password"
-                type={showPassword ? "text" : "password"}
-                required
-                className="field pr-10"
-                placeholder="At least 8 characters"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? (
-                  <Eye className="size-4" />
-                ) : (
-                  <EyeOff className="size-4" />
-                )}
-              </button>
-            </div>
-          </Field>
-        </div>
+                        <Field label="Password">
+                  <div className="relative">
+                    <input
+                      name="password"
+                      type={showLoginPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      className="field pr-10"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
+                      aria-label={showLoginPassword ? "Hide password" : "Show password"}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showLoginPassword ? (
+                        <Eye className="size-4" />
+                      ) : (
+                        <EyeOff className="size-4" />
+                      )}
+                    </button>
+                  </div>
+                </Field>
 
-        <div className="sm:col-span-2">
-          <Field label="Confirm Password">
-            <div className="relative">
-              <input
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                required
-                className="field pr-10"
-                placeholder="Re-enter your password"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-                aria-label={
-                  showConfirmPassword
-                    ? "Hide confirm password"
-                    : "Show confirm password"
-                }
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showConfirmPassword ? (
-                  <Eye className="size-4" />
-                ) : (
-                  <EyeOff className="size-4" />
-                )}
-              </button>
-            </div>
-          </Field>
-        </div>
+                <div className="flex justify-end -mt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("forgot-password");
+                      setError("");
+                    }}
+                    className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
 
-
+       
         {error && (
           <div className="sm:col-span-2">
             <InlineError text={error} />
