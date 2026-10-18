@@ -2279,6 +2279,7 @@ function AuthScreen({
                     placeholder="Enter your username"
                     required
                   />
+                </Field>
 
                 <Field label="Password">
                   <div className="relative">
