@@ -2279,7 +2279,6 @@ function AuthScreen({
                     placeholder="Enter your username"
                     required
                   />
-                </Field>
 
                 <Field label="Password">
                   <div className="relative">
@@ -2298,9 +2297,9 @@ function AuthScreen({
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
                       {showLoginPassword ? (
-                        <EyeOff className="size-4" />
-                      ) : (
                         <Eye className="size-4" />
+                      ) : (
+                        <EyeOff className="size-4" />
                       )}
                     </button>
                   </div>
@@ -2318,6 +2317,7 @@ function AuthScreen({
                     Forgot password?
                   </button>
                 </div>
+
 
                 {error && (
                   <InlineError
@@ -2620,9 +2620,9 @@ function Registration({
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? (
-                  <EyeOff className="size-4" />
-                ) : (
                   <Eye className="size-4" />
+                ) : (
+                  <EyeOff className="size-4" />
                 )}
               </button>
             </div>
@@ -2652,14 +2652,15 @@ function Registration({
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showConfirmPassword ? (
-                  <EyeOff className="size-4" />
-                ) : (
                   <Eye className="size-4" />
+                ) : (
+                  <EyeOff className="size-4" />
                 )}
               </button>
             </div>
           </Field>
         </div>
+
 
         {error && (
           <div className="sm:col-span-2">
